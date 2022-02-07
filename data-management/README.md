@@ -1,4 +1,4 @@
-# data-monitoring (data version control)
+# data-management (data version control)
 ## 1. install dvc
 ```
 # dvc[all] 에서 [all] 은 dvc 의 remote storage 로 s3, gs, azure, oss, ssh 모두를 사용할 수 있도록 관련 패키지를 함께 설치하는 옵션입니다.
