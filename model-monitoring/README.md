@@ -160,3 +160,4 @@ kubectl get po -n default -w
 kubectl get pod -w
 kubectl get svc
 ```
+
