@@ -8,7 +8,7 @@
 
 ---
 
-# 1. Prometheus
+# 2. Prometheus
 
 [Prometheus](https://github.com/prometheus)
 
@@ -74,7 +74,7 @@
 
 ---
 
-# 2. Grafana
+# 3. Grafana
 
 [GitHub - grafana/grafana: The open and composable observability and data visualization platform. Visualize metrics, logs, and traces from multiple sources like Prometheus, Loki, Elasticsearch, InfluxDB, Postgres and many more.](https://github.com/grafana/grafana)
 
@@ -112,15 +112,26 @@
     - 다만 처음 시작할 때는 위의 다양한 오픈소스 대시보드 중 하나를 import 하는 것부터 시작
 
 
-# 2. How to Install
+# 4. How to Install
 
 ### 1) minikube
+see https://minikube.sigs.k8s.io/docs/start/
 ```bash
+brew install minikube
 minikube start --driver=docker --cpus='4' --memory='4g'
 ```
-### 2) kube-prometheus-stack Helm Repo 추가
 
-- [https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+### 2) helm
+see https://d8devs.com/helm-cli-installation-on-apple-m1/
+```bash
+curl -O https://get.helm.sh/helm-v3.6.3-darwin-arm64.tar.gz
+tar -zxvf helm-v3.6.3-darwin-arm64.tar.gz 
+sudo mv darwin-arm64/helm /usr/local/bin/helm
+```
+
+### 3) kube-prometheus-stack Helm Repo 추가
+
+- see [https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
 - Prometheus, Grafana 등을 k8s 에 쉽게 설치하고 사용할 수 있도록 패키징된 Helm 차트
     - **버전 : kube-prometheus-stack-19.0.2**
 
@@ -130,4 +141,22 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 
 # helm repo update
 helm repo update
+```
+
+### 4) kube-prometheus-stack
+
+```bash
+# helm install [RELEASE_NAME] prometheus-community/kube-prometheus-stack
+
+helm install prom-stack prometheus-community/kube-prometheus-stack
+# 모든 values 는 default 로 생성됨
+# 실무에서 admin password, storage class, resource, ingress 등의 value 를 수정한 뒤 적용하는 경우라면, charts 를 clone 한 뒤, `values.yaml` 을 수정하여 git 으로 환경별 히스토리 관리
+# https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+
+# 정상 설치 확인
+kubectl get po -n default -w
+
+# 최초 설치 시 docker image pull 로 인해 수 분의 시간이 소요될 수 있음
+kubectl get pod -w
+kubectl get svc
 ```
