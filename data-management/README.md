@@ -1,9 +1,81 @@
-# data-management (data version control)
-## 1. install dvc
-```
-# dvc[all] 에서 [all] 은 dvc 의 remote storage 로 s3, gs, azure, oss, ssh 모두를 사용할 수 있도록 관련 패키지를 함께 설치하는 옵션입니다.
-pip install dvc[all]==2.6.4
+# Data Management (data version control)
 
+## Intro
+### 1. Data version control의 필요성
+ML개발을 하다보면 Raw data를 조금씩 변경시켜 가면서 즉, feature engineering을 해보면서 
+Data 의 version이 생겨나게 된다. 
+> 내가 연구실에서 연구할 때만 해도 resolution도 변경시켜보고, generalize도 해보고 .. 하면서 데이터 자체를 건들이는 일이 많았다. 
+
+ex. 시계열 데이터에서 noise를 줄이면서 데이터의 대표성을 잃지 않기 위해 위해 일정 기간동안의 average를 적용하는 일이 많음.    
+이 때 '일정 기간'을 여러 시도해보면서 가장 좋은 성능을 내는 데이터가 무엇이고, 가장 좋은 성능을 내는 Feature engineering 기법은 무엇인지 version마다 관리하는 것이 필요해짐.    
+
+
+### 2. Data Management Tool란
+Data version마다 '최종', '최종최종', '이게 진짜 좋음' 이렇게 파일명으로 개발할 것인가?!    
+software engineering에서 Git을 사용하는 이유는 분명 있다. 
+그리고 Git 을 hosting해주는 Github 같은 platform 서비스는 사용을 훨씬 편리하게 해준다. 
+하지만 이런 software source code(text file)을 위한 platform 서비스는 '대용량' 데이터를 올리기에는 한계가 있다. 
+> 실제 내가 회사에서 실제 AI 분석을 돌리지 않아도 되는 dummy ai analyzer를 개발하기 위해 미리 분석결과를 file로 저장하기에도 git lfs Free model로는 한계가 있고, 특히 image, 영상 data는 더욱이 어려워진다.    
+이에 대해 S3 사용을 고려하기도 한다.  
+
+이런 측면에서 Data Management 에 용이한 Tool에도 대표적으로 `DVC`, `Pachyderm`, `Delta Lake`, `Dolt`등이 있다. 
+
+
+### 3. [DVC](https://dvc.org/)
+이 중에서 
+- opensource이며
+- 사용법이 git과 비슷해서 사용이 쉬워서
+DVC를 사용하고 
+-> 데이터 관리와
+-> git과의 연동에 대해 알아보고자 한다. 
+
+특징으로는
+- 대부분의 S3, google drive..등의 storage와 호환된다. 
+- Github외의 GitLab, Bitbucket등의 대부분의 git 호스팅 서버와 연동됨
+- Data Pipeline을 재현가능하도록 DAG로 관리
+- Git과 유사한 인터페이스
+
+DVC 구조
+1. 실제 data는 storage에 저장되고, 
+2. Github repo에는 그 data의 metadata만 저장된다. 
+이 1, 2를 쉽게 사용할 수 잇도록 자동화되어있음. 
+![DVC](./assets/dvc.png)
+
+---
+
+
+## Install dvc
+### prerequisite
+- **가상환경** setting
+```bash
+python3 -m venv venv && source ./venv/bin/activate            
+````
+
+- **python** 설치
+
+```bash
+python -V
+# Python 3.9.6
+```
+
+- **git** 설치
+```bash
+sudo apt install git
+
+git --version
+# git version 2.25.1
+
+git --help
+# 정상 설치되었는지 확인
+```
+
+### DVC 설치
+
+```bash
+# dvc[all] 에서 [all] 은 dvc 의 remote storage 로 s3, gs, azure, oss, ssh 모두를 사용할 수 있도록 관련 패키지를 함께 설치하는 옵션입니다.
+pip install 'dvc[all]==2.6.4'
+
+# 정상 설치되었는지 확인
 dvc --version
 
 dvc --help
@@ -12,7 +84,28 @@ dvc --help
 # 현재 directory(.mlops-practice)를 dvc 저장소로 초기화 한다. 
 dvc init
 ```
-## 2. DVC 기본 명령 1
+
+### DVC 저장소 세팅
+1) 새 Directory 를 생성합니다.
+
+```bash
+# STEP 1) 새로운 directory 를 만들고 이동합니다.
+mkdir data-management/data
+
+cd data-management/data
+```
+
+2) 해당 Directory 를 git 저장소로 초기화합니다.
+
+```bash
+# STEP 2) git 저장소로 초기화합니다.
+git init
+```
+
+3) 해당 Directory 를 dvc 저장소로 초기화합니다.
+---
+
+## DVC 기본 명령 1
 
 ### 1) dvc 로 버전 tracking 할 data 를 생성합니다.
 
@@ -100,7 +193,7 @@ dvc push
 
 ---
 
-## 3. DVC 기본 명령 2
+## DVC 기본 명령 2
 
 ### 1) dvc pull
 
@@ -168,7 +261,7 @@ cat data-management/data/sample_data.csv
 
 ---
 
-## 4. DVC 의 추가 기능
+## DVC 의 추가 기능
 
 - 이번 강의에서 다루지 않은 DVC 의 추가 기능
     - Python API 를 사용한 제어
