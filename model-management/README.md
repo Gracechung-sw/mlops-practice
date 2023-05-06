@@ -101,6 +101,7 @@ mlflow ui
         -  Elastic net regularization
         - Regularization and Variable Selection via the Elastic Net
     - see https://docs.databricks.com/_static/notebooks/mlflow/mlflow-quick-start-training.html for more details.
+
 ```bash
 cd model-management
 
