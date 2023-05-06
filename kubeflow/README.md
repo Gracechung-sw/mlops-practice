@@ -22,7 +22,7 @@ AI 분석 기능에서 사실 실제로 비용이 비싼 GPU를 사용하는 부
 
 ## Kubeflow 구성 요소
 ### ml-workflow
-![ml-workflow](../assets/img/ml-workflow.png)
+![ml-workflow](../assets/img/mlworkflow.png)
 
 ### Central Dashboard
 : web brawser에서 각각의 kubeflow MSA에 접속 할 수 있는 통합 dashboard. 
