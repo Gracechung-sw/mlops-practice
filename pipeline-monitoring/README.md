@@ -6,7 +6,7 @@
 1. 데이터: [Red Wine Quality data](https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009)
 2. code: 표준화 하는 코드와 모델링 하는 코드가 있음. 
 3. Joblib artifacts: 표준화 code를 실행 하면 scaler 가 나오고, 모델링 code를 실행하면 모델 파일이 나온다. 이 둘을 [Joblib artifacts](https://joblib.readthedocs.io/en/latest/) 형식으로 저장. 
-4. Serving API: Fast API와 Pydantic을 사용해서 Serving API를 구현함. 
+4. Serving API: Fast API와 Pydantic을 사용해서 Serving API를 구현함.  (Pydantic: pydantic : Type annotations 을 사용해 데이터 구문 분석 및 유효성 검사를 자동으로 해주고 오류 시 error 를 반환해주는 유용한 라이브러리)
 5. Github에 push
 6. Jenkins: Build App and Run. 이때 Build된 docker image를 Docker hub에 push
 7. Container를 실행하고 
@@ -34,8 +34,11 @@ python train.py
 # INFO:__main__:Test MSE: 0.35108395857445623
 # INFO:__main__:Saving artifacts...
 ```
+
 ### 실습 1. ML 모델 성능 Monitoring
 1. FastAPI Serving API 생성
+    - schemas.py: Data Validation 을 위한 [pydantic schema](https://pydantic-docs.helpmanual.io/usage/schema/) 작성
+    - app.py: 패키지, scaler, model 로드, 기본 api 생성
 2. FastAPI-Prometheus Metric 수집
 3. Prometheus 와 Grafana 연동
 4. Locust를 이용한 Simulation 및 Dashboard 생성
