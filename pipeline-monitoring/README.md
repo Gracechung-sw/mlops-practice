@@ -39,6 +39,7 @@ python train.py
 1. FastAPI Serving API 생성
     - schemas.py: Data Validation 을 위한 [pydantic schema](https://pydantic-docs.helpmanual.io/usage/schema/) 작성
     - app.py: 패키지, scaler, model 로드, 기본 api 생성
+    - 실행을 위해 Dockerfile, docker-compose file 작성. 
 2. FastAPI-Prometheus Metric 수집
 3. Prometheus 와 Grafana 연동
 4. Locust를 이용한 Simulation 및 Dashboard 생성
