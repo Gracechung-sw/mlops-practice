@@ -116,6 +116,9 @@ docker-compose up
         - locust 폴더, locustfile.py 생성
         - Feature 와 dataset 정의
         - test class 생성
+    - 로컬에서 locust 실행
+        - sh run_test.sh\
+    - localhost:8089 접속하여 확인
 ### 실습 2. Jenkins 를 이용한 ML 모델 업데이트 및 자동 배포
 ### 실습 3. Jenkins Monitoring
 
