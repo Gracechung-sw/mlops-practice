@@ -1,1 +1,0 @@
-docker run -d --name prometheus-docker --network=host -v /Users/hyeonjeongchung/Desktop/Study/mlops-practice/pipeline-monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
