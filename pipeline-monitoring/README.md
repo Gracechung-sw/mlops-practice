@@ -118,7 +118,13 @@ docker-compose up
         - test class 생성
     - 로컬에서 locust 실행
         - sh run_test.sh\
-    - localhost:8089 접속하여 확인
+    - http://localhost:8089 접속하여 확인
+    - Grafana Dashboard 생성
+        - [localhost:3000](http://localhost:3000) 에 접속
+        - + → Import → Import via panel json 에 아래 json 입력하고 Load
+        - 결과 화면
+        ![grafana monitoring result](../assets/img/grafana_monitoring_result.png)
+
 ### 실습 2. Jenkins 를 이용한 ML 모델 업데이트 및 자동 배포
 ### 실습 3. Jenkins Monitoring
 
