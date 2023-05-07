@@ -86,7 +86,6 @@ docker-compose up
         
     - prometheus.yml 을 volume 으로 참조해서 실행
         - `docker run -d --name prom-docker --network=host -v <서버 경로>/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus`
-        - 여기선 다 준비해두었으니 `sh run.sh`
         
     - [localhost:9090/targets](http://localhost:9090/targets) 에 접속하여 확인
         
@@ -94,6 +93,7 @@ docker-compose up
         
     - grafana 로컬 설치/ prometheus metric 연결 확인
         - `docker run -d --name grafana-docker --network=host grafana/grafana`
+        - 여기선 다 prometheus, grafana 같이 띄우도록 `sh run.sh`
         - [localhost:3000](http://localhost:3000) 접속
             - 초기 아이디/비밀번호 : admin/admin
         - prometheus 연결 확인
@@ -108,6 +108,14 @@ docker-compose up
                 - Metrics browser : fastapi_monitoring_regression_model_output_sum{}
                 - Use Query
 5. Locust를 이용한 Simulation 및 Dashboard 생성
+    - [Locust](http://docs.locust.io/en/stable/what-is-locust.html) 란?
+        - 구축된 서버의 성능을 측정하기 위한 stress test 도구
+        - 특징
+            - @task 데코레이터의 인자값을 이용해 어느 task 를 더 많이 실행할 지 정의
+    - 코드 작성
+        - locust 폴더, locustfile.py 생성
+        - Feature 와 dataset 정의
+        - test class 생성
 ### 실습 2. Jenkins 를 이용한 ML 모델 업데이트 및 자동 배포
 ### 실습 3. Jenkins Monitoring
 
