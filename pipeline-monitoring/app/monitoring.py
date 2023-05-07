@@ -22,7 +22,7 @@ instrumentator = Instrumentator(
 ## ENABLE_METRICS 가 true 인 Runtime 에서만 동작하게 됨 
 
 instrumentator.add # add method로 수집하고자 하는 metric을 설정함. 
-    metrics.request_size(
+    metrics.request_size( # 요청 size
         should_include_handler=True,
         should_include_method=True,
         should_include_status=True,
@@ -31,7 +31,7 @@ instrumentator.add # add method로 수집하고자 하는 metric을 설정함.
     )
 )
 instrumentator.add(
-    metrics.response_size(
+    metrics.response_size( # 응답 size
         should_include_handler=True,
         should_include_method=True,
         should_include_status=True,
@@ -40,7 +40,7 @@ instrumentator.add(
     )
 )
 instrumentator.add(
-    metrics.latency(
+    metrics.latency( # 요청에서 응답까지 latency는 얼마나 걸리는지
         should_include_handler=True,
         should_include_method=True,
         should_include_status=True,
@@ -49,7 +49,7 @@ instrumentator.add(
     )
 )
 instrumentator.add(
-    metrics.requests(
+    metrics.requests( # request 횟수
         should_include_handler=True,
         should_include_method=True,
         should_include_status=True,
