@@ -11,6 +11,8 @@ app = FastAPI()
 scaler = load(ROOT_DIR / "artifacts/scaler.joblib")
 model = load(ROOT_DIR / "artifacts/model.joblib")
 
+# expose: https://github.com/trallnag/prometheus-fastapi-instrumentator/blob/02e807b76cd2692cf543e207fd07f926a69046d6/prometheus_fastapi_instrumentator/instrumentation.py#L206
+instrumentator.instrument(app).expose(app, include_in_schema=False, should_gzip=True)
 
 @app.get("/")
 def root():

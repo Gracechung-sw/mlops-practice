@@ -48,7 +48,65 @@ docker-compose up
 ```
 3. FastAPI-Prometheus Metric 수집
     - FastAPI와 Prometheus을 연결하는 [prometheus_fastapi_instrumentator](https://github.com/trallnag/prometheus-fastapi-instrumentator) 사용
+    - [Metric 유형 참고 사이트](https://promlabs.com/blog/2020/09/25/metric-types-in-prometheus-and-promql)  [from PromLabs]
+    - bucket : 개발자가 임의로 지정해 둔 측정 범위를 의미 (ex. 3분에 한 번 측정할래. 하면 이 3분 이라는 측정 범위가 bucket이 됨. )
+    - Histogram : bucket 안에 있는 metric 의 빈도 측정
+    - api 에 연동 부분 추가
+        ```python
+        from .monitoring import instrumentator
+        ...
+        instrumentator.instrument(app).expose(app, include_in_schema=False, should_gzip=True)
+        ```
 4. Prometheus 와 Grafana 연동
+- prometheus 로컬 설치
+    - prometheus.yml 작성 ([참고](https://prometheus.io/docs/prometheus/latest/configuration/configuration/))
+        - global.scrape_interval : 몇 초마다 Metric 을 수집할 지 설정
+        - global.evaluation_interval : AlertRule 을 어느 주기마다 evaluate 할 것인지 설정
+            - evaluate 하게 되면 inactive, pending, firing 의 3가지 state 로 구분이 되고, 이를 기반으로 alertmanager에서의 알람 발송 여부를 정할 수 있다.
+            - alertmanager의 rule은 expression을 사용해서 설정할 수 있다.
+        - scrape_config
+            - job_name : 메트릭을 수집해서 구분을 할 네이밍을 지정
+            - static_configs.targets : Metric 을 수집할 서버 주소를 지정한다.
+        
+        ```yaml
+        # prometheus.yml
+        
+        global:
+          scrape_interval:     15s
+          evaluation_interval: 30s
+          # scrape_timeout is set to the global default (10s).
+        
+        scrape_configs:
+        - job_name: fastapi
+          honor_labels: true
+          static_configs:
+          - targets:
+            - localhost:5000  # metrics from model
+        ```
+        
+    - prometheus.yml 을 volume 으로 참조해서 실행
+        - `docker run -d --name prom-docker --network=host -v <서버 경로>/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus`
+        - 여기선 다 준비해두었으니 `sh run.sh`
+        
+    - [localhost:9090/targets](http://localhost:9090/targets) 에 접속하여 확인
+        
+        ![prometheus targets](../assets/img/prometheus_target.png)
+        
+    - grafana 로컬 설치/ prometheus metric 연결 확인
+        - `docker run -d --name grafana-docker --network=host grafana/grafana`
+        - [localhost:3000](http://localhost:3000) 접속
+            - 초기 아이디/비밀번호 : admin/admin
+        - prometheus 연결 확인
+            - [Configuration]-[Data sources]-[Add data source]-[Prometheus 선택]
+                
+                ![grafana](../assets/img/grafana.png)
+                
+            - Save & test 확인
+            - Explore
+            - New Panel
+                - Data source : Prometheus
+                - Metrics browser : fastapi_monitoring_regression_model_output_sum{}
+                - Use Query
 5. Locust를 이용한 Simulation 및 Dashboard 생성
 ### 실습 2. Jenkins 를 이용한 ML 모델 업데이트 및 자동 배포
 ### 실습 3. Jenkins Monitoring
