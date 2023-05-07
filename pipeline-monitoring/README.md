@@ -40,9 +40,16 @@ python train.py
     - schemas.py: Data Validation 을 위한 [pydantic schema](https://pydantic-docs.helpmanual.io/usage/schema/) 작성
     - app.py: 패키지, scaler, model 로드, 기본 api 생성
     - 실행을 위해 Dockerfile, docker-compose file 작성. 
-2. FastAPI-Prometheus Metric 수집
-3. Prometheus 와 Grafana 연동
-4. Locust를 이용한 Simulation 및 Dashboard 생성
+2. FastAPI Serving API(ML Serving App) 실행
+```bash
+docker-compose up
+
+# Go localhost:5000
+```
+3. FastAPI-Prometheus Metric 수집
+    - FastAPI와 Prometheus을 연결하는 [prometheus_fastapi_instrumentator](https://github.com/trallnag/prometheus-fastapi-instrumentator) 사용
+4. Prometheus 와 Grafana 연동
+5. Locust를 이용한 Simulation 및 Dashboard 생성
 ### 실습 2. Jenkins 를 이용한 ML 모델 업데이트 및 자동 배포
 ### 실습 3. Jenkins Monitoring
 
