@@ -23,10 +23,13 @@ python3 train.py
 ```
 
 
+### CML 을 사용하여 성능 지표를 레포트 형태로 출력하기
+Github Actions에서 실행되어서 출력된 결과를 Github Actions console page에 들어가지 않고 레포트 형식으로 출력된 것을 볼 수 있도록 CML을 사용해보자. 
 
-
-
-
+- [CML Functions](https://github.com/iterative/cml#cml-functions) 에서 
+  - cml-publish: Publish host an image for displaying in a CML report.
+  - cml-send-comment: 
+  를 사용해보고자함. 
 ## Jenkinsfile을 이용한 CI Pipeline 빌드
 
 ## Python기반 Jenkins CI Piepline 생성
