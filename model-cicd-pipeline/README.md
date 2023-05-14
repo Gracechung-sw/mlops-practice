@@ -27,11 +27,46 @@ python3 train.py
 Github Actions에서 실행되어서 출력된 결과를 Github Actions console page에 들어가지 않고 레포트 형식으로 출력된 것을 볼 수 있도록 CML을 사용해보자. 
 
 - [CML Functions](https://github.com/iterative/cml#cml-functions)에 활용법이 잘 나와 있음. 
+- sample code: ./model-train-cml-tracking
+- data: Modelling a Kaggle dataset of [red wine properties and quality ratings](https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009).
+- github actions yml: $(root)/.github/workflows/model-training.yml
 - Github actions 실행 결과
 ![cml result](../assets/img/cml-githubactions.png)
 
+
 ### DVC CML 연계를 통한 Model Metric Tracking
 DVC로 서로 다른 version의 model metric tracking을 편리하게 할 수 있을지 알아보자. 
+- sample code: ./dvc-cml-model-metric-tracking
+- data: Modeling Swiss farmer's attitudes about climate change. Modeling data from [Kreft et al. 2020](https://www.sciencedirect.com/science/article/pii/S2352340920303048).
+- github actions yml: $(root)/.github/workflows/model-training.yml
+
+```bash
+python3 -m venv venv && source ./venv/bin/activate
+
+pip install -r requirements.txt
+
+python3 process_data.py
+
+# after data processing is done, check output file data_processed.csv 
+
+python3 train.py
+
+# after train is done, check output file by_region.png
+```
+
+#### install dvc
+
+```bash
+pip install dvc
+```
+
+#### init dvc
+```bash
+# 초기화
+dvc init (or dvc init --subdir)
+# dvc.yaml 생성
+dvc run -n process -d process_data.py -d data_raw.csv -o data_processed.csv --no-exec python process_data.py
+```
 
 ## Jenkinsfile을 이용한 CI Pipeline 빌드
 
