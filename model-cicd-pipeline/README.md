@@ -94,6 +94,23 @@ stages:
 dvc repro
 ```
 
+### DVC 를 활용하여 Metric 의 변화(다른 branch에서 작업한 것) 추적하기
+모델링 변경하여 테스트
+    - 새로운 branch (experiment) 생성
+    - [train.py](http://train.py) 수정 (LogisticRegression → [QuadraticDiscriminantAnalysis](https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis.html))
+        
+        ```python
+        # from sklearn.linear_model import LogisticRegression
+        from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+        ...
+        # clf = LogisticRegression()
+        clf = QuadraticDiscriminantAnalysis()
+        ```
+        
+    - commit → build
+    - 변경값 확인 !
+
+
 ## Jenkinsfile을 이용한 CI Pipeline 빌드
 
 ## Python기반 Jenkins CI Piepline 생성
