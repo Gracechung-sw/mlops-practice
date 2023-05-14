@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./model-cicd-pipeline
+        working-directory: ./model-cicd-pipeline/model-train-cml-report
+      
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -29,8 +30,8 @@ jobs:
             cat metrics.txt >> report.md
 
             echo "## Data viz" >> report.md
-            echo "![feature_importance](./model-cicd-pipeline/feature_importance.png)" >> report.md
-            echo "![residuals](./model-cicd-pipeline/residuals.png)" >> report.md
+            echo "![feature_importance](./model-cicd-pipeline/model-train-cml-report/feature_importance.png)" >> report.md
+            echo "![residuals](./model-cicd-pipeline/model-train-cml-report/residuals.png)" >> report.md
             
             cml comment create report.md
 

@@ -29,6 +29,10 @@ Github Actions에서 실행되어서 출력된 결과를 Github Actions console 
 - [CML Functions](https://github.com/iterative/cml#cml-functions)에 활용법이 잘 나와 있음. 
 - Github actions 실행 결과
 ![cml result](../assets/img/cml-githubactions.png)
+
+### DVC CML 연계를 통한 Model Metric Tracking
+DVC로 서로 다른 version의 model metric tracking을 편리하게 할 수 있을지 알아보자. 
+
 ## Jenkinsfile을 이용한 CI Pipeline 빌드
 
 ## Python기반 Jenkins CI Piepline 생성
