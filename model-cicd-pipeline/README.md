@@ -38,7 +38,7 @@ Github Actions에서 실행되어서 출력된 결과를 Github Actions console 
 DVC로 서로 다른 version의 model metric tracking을 편리하게 할 수 있을지 알아보자. 
 - sample code: ./dvc-cml-model-metric-tracking
 - data: Modeling Swiss farmer's attitudes about climate change. Modeling data from [Kreft et al. 2020](https://www.sciencedirect.com/science/article/pii/S2352340920303048).
-- github actions yml: $(root)/.github/workflows/model-training.yml
+- github actions yml: $(root)/.github/workflows/dvc-model-training.yml
 
 ```bash
 python3 -m venv venv && source ./venv/bin/activate
@@ -66,6 +66,32 @@ pip install dvc
 dvc init (or dvc init --subdir)
 # dvc.yaml 생성
 dvc run -n process -d process_data.py -d data_raw.csv -o data_processed.csv --no-exec python process_data.py
+```
+
+#### fix dvc config yml file(dvc.yml)
+```yaml
+stages:
+  process:
+    cmd: python process_data.py
+    deps:
+    - data_raw.csv
+    - process_data.py
+    outs:
+    - data_processed.csv
+  train:
+    cmd: python train.py
+    deps:
+    - train.py
+    - data_processed.csv
+    outs:
+    - by_region.png
+    metrics:
+    - metrics.json:
+        cache: false
+```
+### reproduction dvc
+```bash
+dvc repro
 ```
 
 ## Jenkinsfile을 이용한 CI Pipeline 빌드
