@@ -1,0 +1,8 @@
+stages:
+  process:
+    cmd: python process_data.py
+    deps:
+    - data_raw.csv
+    - process_data.py
+    outs:
+    - data_processed.csv

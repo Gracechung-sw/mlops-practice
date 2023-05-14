@@ -11,7 +11,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.impute import SimpleImputer
 
-df = pd.read_csv("data_processed.csv")
+df = pd.read_csv("./data_processed.csv")
 
 #### Get features ready to model! 
 y = df.pop("cons_general").to_numpy()
